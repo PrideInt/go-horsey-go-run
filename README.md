@@ -7,9 +7,10 @@ to manage data racing of the resource that announces the winner. Uses `rand` to 
 in each thread.
 
 # Images
-![Screenshot 2023-11-13 052653](https://github.com/PrideInt/go-horsey-go-run/assets/20098992/6fd1d9d3-9003-4771-a049-40e74a362ee5)
 
-![Screenshot 2023-11-13 0527061](https://github.com/PrideInt/go-horsey-go-run/assets/20098992/3a522f5f-87fa-40d3-a104-aa7cb0ef4131)
+![Screenshot 2023-11-13 133605](https://github.com/PrideInt/go-horsey-go-run/assets/20098992/004e0464-ad14-4161-acb0-f9416347ce0b)
+
+![Screenshot 2023-11-13 133800](https://github.com/PrideInt/go-horsey-go-run/assets/20098992/ae6f71ee-bb59-4bfd-a79a-bd1ceb18aa30)
 
 # Dependencies / Crates
 - rand

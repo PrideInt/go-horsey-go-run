@@ -4,7 +4,7 @@ use rand::Rng;
 fn main() {
     println!(" ------------------------------------");
     println!("|                                    |");
-    println!("|    Welcome to Go Horsey Go Run!    |");
+    println!("|   Welcome to Go Horsey, Go Run!    |");
     println!("|                                    |");
     println!(" ------------------------------------");
     println!();
@@ -34,12 +34,15 @@ fn main() {
         let mut map: HashMap<i32, i32> = HashMap::new();
         let mut race: HashMap<i32, &str> = HashMap::new();
 
-        let condition = Arc::new(Mutex::new(false));
+        let condition: Arc<Mutex<bool>> = Arc::new(Mutex::new(false));
+        let finished: Arc<Mutex<i32>> = Arc::new(Mutex::new(0));
 
         for i in origin..bound {
             let mut scores: HashMap<i32, i32> = map.clone();
             let mut races: HashMap<i32, &str> = race.clone();
-            let mut cond = condition.clone();
+
+            let mut cond: Arc<Mutex<bool>> = condition.clone();
+            let mut fin: Arc<Mutex<i32>> = finished.clone();
 
             threads.push(thread::spawn(move || {
                 for j in 1..11 {
@@ -47,7 +50,9 @@ fn main() {
 
                     let val = scores.get(&i).copied().unwrap_or(0);
                     let dash = if val >= 10 { 12 } else { val + rng };
-                    let mut winner = cond.lock().unwrap();
+
+                    let mut winner: std::sync::MutexGuard<'_, bool> = cond.lock().unwrap();
+                    let mut position: std::sync::MutexGuard<'_, i32> = fin.lock().unwrap();
 
                     let mut line: String = "".to_string();
                     for l in 0..10 {
@@ -60,7 +65,12 @@ fn main() {
                         }
                     }
                     if dash <= 11 {
-                        println!("Horse {}!: {}", i, line);
+                        if dash == 10 || dash == 11 {
+                            *position += 1;
+                            println!("Horse {}: {} | Finished at position {}!", i, line, *position);
+                        } else {
+                            println!("Horse {}: {}", i, line);
+                        }
                     }
 
                     if !*winner && dash >= 10 {
